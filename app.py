@@ -2,9 +2,7 @@ from flask import Flask, request, jsonify,render_template
 import pandas as pd
 import os
 import joblib
-
 app = Flask(__name__)
-
 # Load the trained model
 model = joblib.load('phishing_detector.pkl')
 
@@ -20,7 +18,6 @@ def extract_features(url):
         url.lower().count('bank'),     # Feature 8: Presence of 'bank'
         len(url.split('/')[2])         # Feature 9: Length of the domain
     ]
-
 # Define the route for the homepage
 @app.route('/')
 def index():
@@ -55,14 +52,9 @@ def analyze_url():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
-
-
-
 @app.route('/test', methods=['GET'])
 def test():
     return "Flask is working!"
-
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))  # Get port from environment, default to 5000
     app.run(host='0.0.0.0', port=port)
